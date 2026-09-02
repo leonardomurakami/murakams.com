@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Graduation IME-USP site architecture</title>
+  <desc id="desc">Diagram: a Docusaurus static site archiving IME-USP coursework organized by year and discipline, built into a Docker image with Nginx, deployed via the GitOps platform to graduacao.murakams.com.</desc>
+  <rect width="1200" height="675" fill="#fbfbfa"/>
+  <g font-family="ui-monospace, monospace" font-size="20" fill="#1c1b1a">
+    <!-- Coursework source -->
+    <rect x="60" y="100" width="260" height="120" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="190" y="145" text-anchor="middle">Coursework</text>
+    <text x="190" y="170" text-anchor="middle" font-size="15" fill="#6b6a68">by year &amp; discipline</text>
+    <text x="190" y="195" text-anchor="middle" font-size="15" fill="#6b6a68">MAC · MAP · MAE · AUP</text>
+
+    <!-- Docusaurus -->
+    <rect x="440" y="100" width="260" height="120" rx="10" fill="#fde9d3" stroke="#b45309"/>
+    <text x="570" y="145" text-anchor="middle">Docusaurus</text>
+    <text x="570" y="170" text-anchor="middle" font-size="15" fill="#6b6a68">React · static build</text>
+    <text x="570" y="195" text-anchor="middle" font-size="15" fill="#6b6a68">browsable archive</text>
+
+    <line x1="320" y1="160" x2="440" y2="160" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Docker + Nginx -->
+    <rect x="820" y="100" width="220" height="120" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="930" y="145" text-anchor="middle">Docker + Nginx</text>
+    <text x="930" y="170" text-anchor="middle" font-size="15" fill="#6b6a68">container image</text>
+    <text x="930" y="195" text-anchor="middle" font-size="15" fill="#6b6a68">static serving</text>
+    <line x1="700" y1="160" x2="820" y2="160" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- GitOps -->
+    <rect x="380" y="340" width="440" height="100" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="600" y="380" text-anchor="middle">GitOps platform</text>
+    <text x="600" y="405" text-anchor="middle" font-size="15" fill="#6b6a68">ArgoCD reconciles · Traefik ingress</text>
+    <line x1="930" y1="220" x2="700" y2="340" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Public -->
+    <rect x="380" y="520" width="440" height="80" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="600" y="565" text-anchor="middle">graduacao.murakams.com — living record of CS education</text>
+    <line x1="600" y1="440" x2="600" y2="520" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#b45309"/>
+    </marker>
+  </defs>
+</svg>

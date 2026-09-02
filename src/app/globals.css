@@ -1,0 +1,491 @@
+@import "tailwindcss";
+
+/* Class-based dark mode override (default still respects prefers-color-scheme
+   via the theme-init script, which adds .dark before paint when needed). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Design tokens — single source of truth.
+ * Tailwind v4 generates utilities from @theme (e.g. --color-surface => bg-surface).
+ * Light values live on :root; dark values are inverted under .dark.
+ * The typed mirror in src/design/tokens.ts re-exports names for programmatic use
+ * (motion primitives, JS-driven transitions). Never use ad-hoc color/spacing
+ * literals in components — consume tokens via Tailwind utilities or CSS vars.
+ */
+:root {
+  /* Neutral base */
+  --color-background: #e8deca;
+  --color-surface: #f6efdf;
+  --color-surface-raised: #ddd2bb;
+  --color-foreground: #17191d;
+  --color-muted: #514b40;
+  --color-muted-foreground: #645d50;
+  --color-border: #aa9e84;
+  --color-border-strong: #6f6758;
+  --color-grid: rgb(23 61 143 / 0.075);
+
+  /* Restrained single accent */
+  --color-structural: #173d8f;
+  --color-structural-deep: #102251;
+  --color-structural-foreground: #fff8e9;
+  --color-action: #f2c84b;
+  --color-action-foreground: #17191d;
+  --color-link: #173d8f;
+  --color-accent: #173d8f;
+  --color-accent-foreground: #fff8e9;
+  --color-accent-muted: #d8cfad;
+
+  /* Status (semantic, used by infra + project status) */
+  --color-status-healthy: #28623f;
+  --color-status-degraded: #765c00;
+  --color-status-unhealthy: #a83232;
+  --color-status-unknown: #5f5a50;
+
+  /* Typography */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Container widths */
+  --container-prose: 42rem;
+  --container-narrow: 60rem;
+  --container-default: 76rem;
+  --container-wide: 86rem;
+  --space-gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --space-section: clamp(3.75rem, 8vw, 7rem);
+
+  /* Radius */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.1875rem;
+  --radius-lg: 0.25rem;
+
+  /* Border */
+  --border-width-default: 1px;
+
+  /* Shadow — intentionally minimal */
+  --shadow-sm: 2px 2px 0 rgb(16 34 81 / 0.18);
+  --shadow-md: 5px 6px 0 rgb(16 34 81 / 0.22);
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 300ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Status pulse — one authored moment for live indicators */
+  --animate-status-pulse: status-pulse 2.4s var(--ease-standard) infinite;
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+}
+
+.dark {
+  --color-background: #10182c;
+  --color-surface: #17213a;
+  --color-surface-raised: #202c48;
+  --color-foreground: #f3ead9;
+  --color-muted: #c4bbaa;
+  --color-muted-foreground: #a8a08f;
+  --color-border: #475777;
+  --color-border-strong: #7c89a4;
+  --color-grid: rgb(242 200 75 / 0.075);
+
+  --color-structural: #244991;
+  --color-structural-deep: #0b1530;
+  --color-structural-foreground: #fff8e9;
+  --color-action: #f2c84b;
+  --color-action-foreground: #17191d;
+  --color-link: #ffe078;
+  --color-accent: #ffe078;
+  --color-accent-foreground: #17191d;
+  --color-accent-muted: #40391e;
+
+  --color-status-healthy: #7ccf96;
+  --color-status-degraded: #f2c84b;
+  --color-status-unhealthy: #ff8b80;
+  --color-status-unknown: #b6ad9c;
+
+  --shadow-sm: 2px 2px 0 rgb(0 0 0 / 0.42);
+  --shadow-md: 5px 6px 0 rgb(0 0 0 / 0.48);
+}
+
+@theme inline {
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-foreground: var(--color-foreground);
+  --color-muted: var(--color-muted);
+  --color-muted-foreground: var(--color-muted-foreground);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-structural: var(--color-structural);
+  --color-structural-deep: var(--color-structural-deep);
+  --color-structural-foreground: var(--color-structural-foreground);
+  --color-action: var(--color-action);
+  --color-action-foreground: var(--color-action-foreground);
+  --color-link: var(--color-link);
+  --color-accent: var(--color-accent);
+  --color-accent-foreground: var(--color-accent-foreground);
+  --color-accent-muted: var(--color-accent-muted);
+  --color-status-healthy: var(--color-status-healthy);
+  --color-status-degraded: var(--color-status-degraded);
+  --color-status-unhealthy: var(--color-status-unhealthy);
+  --color-status-unknown: var(--color-status-unknown);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --container-prose: var(--container-prose);
+  --container-narrow: var(--container-narrow);
+  --container-default: var(--container-default);
+  --container-wide: var(--container-wide);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+
+  --animate-duration-fast: var(--duration-fast);
+  --animate-duration-base: var(--duration-base);
+  --animate-duration-slow: var(--duration-slow);
+  --animate-status-pulse: var(--animate-status-pulse);
+}
+
+/* Base element defaults consuming tokens */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+  ::selection {
+    background: var(--color-action);
+    color: var(--color-action-foreground);
+  }
+  /* Visible, token-backed focus indicator for keyboard users */
+  :focus-visible {
+    outline: 3px solid var(--color-action);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 1px var(--color-structural-deep);
+    border-radius: var(--radius-sm);
+  }
+  /* Respect reduced motion globally as a safety net; component primitives also check. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+.experience-canonical {
+  background-color: var(--color-background);
+  background-image:
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
+    linear-gradient(var(--color-grid) 1px, transparent 1px);
+  background-position: center top;
+  background-size: 2rem 2rem;
+}
+
+.site-header {
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 0.045) 1px, transparent 1px) 0 0 / 2rem 100%,
+    var(--color-structural);
+}
+
+.site-header::after {
+  display: block;
+  height: 3px;
+  background: var(--color-action);
+  content: "";
+}
+
+.site-brand-mark {
+  background:
+    linear-gradient(90deg, transparent 45%, var(--color-action) 45% 55%, transparent 55%),
+    linear-gradient(transparent 45%, var(--color-action) 45% 55%, transparent 55%);
+}
+
+.theme-control button {
+  position: relative;
+  border-color: rgb(255 248 233 / 0.55);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-structural-foreground);
+}
+
+.theme-control button:hover {
+  border-color: var(--color-action);
+  background: var(--color-structural-deep);
+  color: var(--color-action);
+}
+
+.theme-control button > span {
+  display: block;
+  width: 0.875rem;
+  height: 0.875rem;
+  overflow: hidden;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-size: 0;
+}
+
+.theme-control button > span::after {
+  display: block;
+  width: 50%;
+  height: 100%;
+  margin-left: auto;
+  background: currentColor;
+  content: "";
+}
+
+.home-hero-field {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 0.055) 1px, transparent 1px) 0 0 / 2rem 100%,
+    linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 100% 2rem,
+    var(--color-structural);
+}
+
+.home-hero-field::before {
+  position: absolute;
+  inset: 1.25rem 1.25rem auto auto;
+  width: clamp(7rem, 16vw, 13rem);
+  height: 0.5rem;
+  background: repeating-linear-gradient(90deg, var(--color-action) 0 1px, transparent 1px 0.75rem);
+  content: "";
+  opacity: 0.72;
+}
+
+.home-project-row {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr) minmax(10rem, 0.55fr);
+}
+
+.home-project-row:hover {
+  background: var(--color-surface);
+}
+
+.home-infra-board {
+  background:
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px) 0 0 / 2rem 100%,
+    var(--color-surface);
+}
+
+@media (max-width: 47.999rem) {
+  .home-project-row {
+    grid-template-columns: 3rem minmax(0, 1fr);
+  }
+
+  .home-project-row > :last-child {
+    grid-column: 2;
+  }
+}
+
+/*
+ * Inlined architecture diagrams (case study pages).
+ * SVGs use hardcoded hex colors as presentation attributes, which don't support
+ * var(). These CSS rules override them at higher specificity, mapping each hex
+ * to the corresponding design token so diagrams adapt to light/dark themes.
+ */
+svg.diagram-svg rect[fill="#fbfbfa"] {
+  fill: var(--color-background);
+}
+svg.diagram-svg rect[fill="#ffffff"] {
+  fill: var(--color-surface);
+}
+svg.diagram-svg rect[fill="#f5f5f4"] {
+  fill: var(--color-surface-raised);
+}
+svg.diagram-svg rect[fill="#fde9d3"] {
+  fill: var(--color-accent-muted);
+}
+/* Text color: most text inherits fill from the parent <g>, not its own attribute.
+   Target both the group and explicit text fills. */
+svg.diagram-svg g[fill="#1c1b1a"] {
+  fill: var(--color-foreground);
+}
+svg.diagram-svg text[fill="#1c1b1a"] {
+  fill: var(--color-foreground);
+}
+svg.diagram-svg text[fill="#6b6a68"] {
+  fill: var(--color-muted);
+}
+svg.diagram-svg text[fill="#8a8987"] {
+  fill: var(--color-muted-foreground);
+}
+svg.diagram-svg text[fill="#b45309"] {
+  fill: var(--color-accent);
+}
+svg.diagram-svg rect[stroke="#d6d3d0"] {
+  stroke: var(--color-border-strong);
+}
+svg.diagram-svg rect[stroke="#e7e5e3"] {
+  stroke: var(--color-border);
+}
+svg.diagram-svg rect[stroke="#b45309"] {
+  stroke: var(--color-accent);
+}
+svg.diagram-svg line[stroke="#b45309"] {
+  stroke: var(--color-accent);
+}
+svg.diagram-svg path[fill="#b45309"] {
+  fill: var(--color-accent);
+}
+
+.experience-canonical {
+  display: flex;
+}
+
+.experience-immersive {
+  display: none;
+}
+
+html[data-experience="accessible"] .experience-canonical {
+  display: flex;
+}
+
+html[data-experience="accessible"] .experience-immersive {
+  display: none;
+}
+
+html[data-experience="immersive"] .experience-canonical {
+  display: none;
+}
+
+html[data-experience="immersive"] .experience-immersive {
+  display: block;
+}
+
+@media print {
+  @page {
+    margin: 0.65in;
+  }
+
+  :root,
+  .dark {
+    --color-background: #ffffff;
+    --color-surface: #ffffff;
+    --color-surface-raised: #ffffff;
+    --color-foreground: #000000;
+    --color-muted: #242424;
+    --color-muted-foreground: #3d3d3d;
+    --color-border: #999999;
+    --color-border-strong: #222222;
+    --color-link: #000000;
+    --color-accent: #000000;
+    --color-accent-muted: #ffffff;
+    --color-status-healthy: #000000;
+    --color-status-degraded: #000000;
+    --color-status-unhealthy: #000000;
+    --color-status-unknown: #000000;
+    --shadow-sm: none;
+    --shadow-md: none;
+  }
+
+  html,
+  body {
+    min-height: auto;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 10.5pt;
+  }
+
+  .site-header,
+  .site-footer,
+  .experience-immersive,
+  [data-experience-region="immersive"],
+  nav[aria-label="Case study sections"] {
+    display: none !important;
+  }
+
+  .experience-canonical,
+  html[data-experience="immersive"] .experience-canonical,
+  html[data-experience="accessible"] .experience-canonical {
+    display: flex !important;
+    min-height: auto !important;
+    background: #ffffff !important;
+  }
+
+  .experience-canonical main,
+  .experience-canonical section,
+  .experience-canonical [class~="sticky"] {
+    position: static !important;
+  }
+
+  .experience-canonical section {
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+
+  .experience-canonical a {
+    color: #000000 !important;
+    text-decoration: underline;
+  }
+
+  .experience-canonical a[target="_blank"]::after {
+    content: " (" attr(href) ")";
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    font-weight: 400;
+  }
+
+  .experience-canonical h1,
+  .experience-canonical h2,
+  .experience-canonical h3,
+  .experience-canonical figure,
+  .experience-canonical li {
+    break-inside: avoid;
+  }
+
+  .experience-canonical h1,
+  .experience-canonical h2,
+  .experience-canonical h3 {
+    break-after: avoid;
+  }
+
+  .experience-canonical video,
+  .experience-canonical iframe,
+  .experience-canonical button {
+    display: none !important;
+  }
+
+  .experience-canonical svg.diagram-svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .experience-canonical * {
+    animation: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    transition: none !important;
+  }
+}

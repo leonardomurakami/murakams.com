@@ -1,0 +1,992 @@
+.experience {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: #050707;
+}
+
+.deviceFrame,
+.deviceScreen {
+  display: contents;
+}
+
+.deviceEarpiece,
+.deviceHardware {
+  display: none;
+}
+
+.shell {
+  --mks-abs: #c8c0af;
+  --mks-abs-light: #eee7d8;
+  --mks-abs-dark: #706859;
+  --mks-screen: #173d8f;
+  --mks-screen-deep: #102251;
+  --mks-title: #1b2c66;
+  --mks-focus: #f2c84b;
+  --mks-ink: #17191d;
+  --mks-paper: #f3ecde;
+  --mks-muted: #625a4c;
+  --mks-error: #a83232;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  background: #0c0c0e;
+  color: var(--mks-ink);
+  isolation: isolate;
+  font-family: var(--font-geist-sans), ui-sans-serif, sans-serif;
+}
+
+.desktop {
+  position: absolute;
+  inset: 0 0 46px;
+  overflow: hidden;
+  background: var(--mks-screen);
+}
+
+.wallpaper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.iconRack {
+  position: absolute;
+  inset: 18px auto 18px 16px;
+  z-index: 3;
+  display: grid;
+  width: 112px;
+  align-content: start;
+  gap: 8px;
+}
+
+.desktopIcon {
+  display: grid;
+  min-height: 82px;
+  place-items: center;
+  gap: 2px;
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 5px 4px;
+  color: #fff7e8;
+  text-align: center;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.8);
+  cursor: default;
+}
+
+.desktopIcon:hover,
+.desktopIcon[data-selected="true"] {
+  border-color: rgb(242 200 75 / 0.75);
+  background: rgb(16 34 81 / 0.48);
+}
+
+.desktopIcon:focus-visible {
+  outline: 2px solid var(--mks-focus);
+  outline-offset: 1px;
+}
+
+.desktopIconLabel {
+  max-width: 96px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.15;
+}
+
+.windowFrame {
+  overflow: hidden;
+  border: 2px solid var(--mks-abs-light);
+  background: var(--mks-abs);
+  box-shadow: 10px 15px 32px rgb(6 12 32 / 0.38);
+}
+
+.windowFrame[data-focused="false"] {
+  filter: saturate(0.72);
+  box-shadow: 5px 8px 18px rgb(6 12 32 / 0.24);
+}
+
+.titleBar {
+  display: flex;
+  height: 34px;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--mks-abs-dark);
+  background: var(--mks-title);
+  padding: 3px 4px 3px 9px;
+  color: #fff9ed;
+  user-select: none;
+}
+
+.windowFrame[data-focused="false"] .titleBar {
+  background: #596170;
+}
+
+.windowTitle {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 720;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.windowControls {
+  display: flex;
+  gap: 2px;
+}
+
+.windowControl {
+  display: grid;
+  width: 25px;
+  height: 24px;
+  place-items: center;
+  border-color: var(--mks-abs-light) var(--mks-abs-dark) var(--mks-abs-dark) var(--mks-abs-light);
+  border-style: solid;
+  border-width: 2px;
+  background: var(--mks-abs);
+  color: var(--mks-ink);
+}
+
+.windowControl:active {
+  border-color: var(--mks-abs-dark) var(--mks-abs-light) var(--mks-abs-light) var(--mks-abs-dark);
+  padding: 2px 0 0 2px;
+}
+
+.windowControl:focus-visible {
+  outline: 2px solid var(--mks-focus);
+  outline-offset: -4px;
+}
+
+.windowContent {
+  height: calc(100% - 34px);
+  overflow: auto;
+  background: var(--mks-paper);
+  scrollbar-color: var(--mks-abs-dark) var(--mks-abs);
+  scrollbar-width: auto;
+}
+
+.taskbar {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 20;
+  display: flex;
+  height: 46px;
+  align-items: center;
+  gap: 5px;
+  border-top: 2px solid var(--mks-abs-light);
+  background: var(--mks-abs);
+  padding: 4px 7px;
+  box-shadow: 0 -6px 20px rgb(6 12 32 / 0.18);
+}
+
+.startButton,
+.taskButton,
+.tray {
+  height: 34px;
+  border-color: var(--mks-abs-light) var(--mks-abs-dark) var(--mks-abs-dark) var(--mks-abs-light);
+  border-style: solid;
+  border-width: 2px;
+  background: #ded6c7;
+  color: var(--mks-ink);
+}
+
+.startButton {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 7px;
+  padding: 0 11px 0 7px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.startButton[data-open="true"],
+.taskButton[data-active="true"] {
+  border-color: var(--mks-abs-dark) var(--mks-abs-light) var(--mks-abs-light) var(--mks-abs-dark);
+  background: #bbb3a3;
+}
+
+.taskList {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.taskButton {
+  min-width: 92px;
+  max-width: 190px;
+  flex: 1 1 150px;
+  overflow: hidden;
+  padding: 0 9px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 650;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tray {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.startMenu {
+  position: absolute;
+  z-index: 30;
+  bottom: 43px;
+  left: 5px;
+  width: 286px;
+  border-color: var(--mks-abs-light) var(--mks-abs-dark) var(--mks-abs-dark) var(--mks-abs-light);
+  border-style: solid;
+  border-width: 2px;
+  background: var(--mks-abs);
+  box-shadow: 8px 12px 30px rgb(0 0 0 / 0.36);
+}
+
+.startMenuBrand {
+  display: flex;
+  align-items: center;
+  background: var(--mks-title);
+  padding: 10px 13px;
+  color: white;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.menuItem {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  padding: 7px 10px;
+  color: var(--mks-ink);
+  text-align: left;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+}
+
+.menuItem:hover,
+.menuItem:focus-visible {
+  background: var(--mks-title);
+  color: white;
+  outline: none;
+}
+
+.menuRule {
+  height: 1px;
+  margin: 4px 7px;
+  background: var(--mks-abs-dark);
+  box-shadow: 0 1px var(--mks-abs-light);
+}
+
+.crtGlass {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  background: linear-gradient(rgb(255 255 255 / 0.018) 50%, rgb(0 0 0 / 0.025) 50%);
+  background-size: 100% 4px;
+  box-shadow: inset 0 0 110px rgb(2 7 18 / 0.34);
+  mix-blend-mode: multiply;
+}
+
+.appSurface {
+  min-height: 100%;
+  background: var(--mks-paper);
+  color: var(--mks-ink);
+}
+
+.welcome {
+  display: grid;
+  min-height: 100%;
+  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
+}
+
+.welcomeMain {
+  padding: clamp(28px, 5vw, 58px);
+}
+
+.welcomeSide {
+  border-left: 1px solid #b8ad98;
+  background: #ddd5c5;
+  padding: clamp(22px, 3vw, 34px);
+}
+
+.appLabel {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mks-muted);
+}
+
+.welcomeTitle {
+  max-width: 620px;
+  margin-top: 14px;
+  font-size: clamp(36px, 5vw, 66px);
+  font-weight: 820;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.welcomeCopy {
+  max-width: 62ch;
+  margin-top: 22px;
+  color: #514b40;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.appButton {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  border-color: #fff8e9 #665f52 #665f52 #fff8e9;
+  border-style: solid;
+  border-width: 2px;
+  background: var(--mks-abs);
+  padding: 0 14px;
+  color: var(--mks-ink);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.appButtonPrimary {
+  background: var(--mks-focus);
+}
+
+.appButton:active {
+  border-color: #665f52 #fff8e9 #fff8e9 #665f52;
+  transform: translateY(1px);
+}
+
+.appButton:focus-visible {
+  outline: 2px solid var(--mks-title);
+  outline-offset: 2px;
+}
+
+.appActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 28px;
+}
+
+.statusRows {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #b8ad98;
+  padding-bottom: 9px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+}
+
+.statusLight {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  border: 1px solid #243225;
+  border-radius: 50%;
+  background: #4c9a5d;
+  box-shadow: 0 0 0 2px #b9af9b;
+}
+
+.programFolder {
+  height: 100%;
+  overflow: auto;
+  padding: 24px;
+}
+
+.programFolderHeader {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #b8ad98;
+  padding-bottom: 16px;
+}
+
+.programFolderHeader h2 {
+  margin-top: 5px;
+  font-size: 26px;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+
+.programFolderHeader > p {
+  color: var(--mks-muted);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+}
+
+.programGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.programExecutable {
+  display: grid;
+  width: 100%;
+  min-height: 132px;
+  place-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  padding: 12px 8px;
+  background: transparent;
+  text-align: center;
+}
+
+.programExecutable:hover,
+.programExecutable:focus-visible {
+  border-color: #827765;
+  background: #e4dccd;
+}
+
+.programExecutable:focus-visible {
+  outline: 2px solid var(--mks-title);
+  outline-offset: 2px;
+}
+
+.programExecutable strong,
+.programExecutable small {
+  display: block;
+}
+
+.programExecutable strong {
+  overflow-wrap: anywhere;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+}
+
+.programExecutable small {
+  margin-top: 4px;
+  color: var(--mks-muted);
+  font-size: 11px;
+}
+
+@media (max-width: 720px) {
+  .experience {
+    display: grid;
+    place-items: center;
+    padding: max(4px, env(safe-area-inset-top)) max(4px, env(safe-area-inset-right))
+      max(4px, env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left));
+    background: #121313;
+  }
+
+  .deviceFrame {
+    position: relative;
+    display: block;
+    width: min(100%, 460px);
+    height: 100%;
+    max-height: 940px;
+    border: 1px solid #555851;
+    border-radius: 28px 28px 38px 38px;
+    padding: 30px 8px 64px;
+    background: linear-gradient(105deg, #202321, #444741 48%, #1a1c1b);
+    box-shadow:
+      0 18px 48px rgb(0 0 0 / 52%),
+      inset 2px 0 2px rgb(255 255 255 / 10%),
+      inset -3px -2px 4px rgb(0 0 0 / 45%);
+  }
+
+  .deviceFrame::before {
+    position: absolute;
+    inset: 7px auto auto 50%;
+    color: #bfc2b8;
+    content: "MKS 98m";
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    transform: translateX(-50%);
+  }
+
+  .deviceEarpiece {
+    position: absolute;
+    top: 19px;
+    left: 50%;
+    display: block;
+    width: 52px;
+    height: 5px;
+    border: 1px solid #0b0c0b;
+    border-radius: 4px;
+    background: repeating-linear-gradient(90deg, #070807 0 2px, #292b28 2px 4px);
+    transform: translateX(-50%);
+  }
+
+  .deviceScreen {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: 3px solid #090a09;
+    border-radius: 5px;
+    background: #102251;
+    box-shadow:
+      0 0 0 1px #777b70,
+      inset 0 0 30px rgb(1 8 26 / 28%);
+  }
+
+  .deviceHardware {
+    position: absolute;
+    right: 24px;
+    bottom: 10px;
+    left: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .deviceHardware span {
+    width: 54px;
+    height: 20px;
+    border: 1px solid #0b0c0b;
+    border-radius: 8px 8px 14px 14px;
+    background: #272a27;
+    box-shadow: inset 0 1px rgb(255 255 255 / 9%);
+  }
+
+  .deviceHardware i {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #090a09;
+    border-radius: 50%;
+    background: #30332f;
+    box-shadow:
+      inset 1px 1px rgb(255 255 255 / 9%),
+      inset -2px -2px rgb(0 0 0 / 38%);
+  }
+
+  .mobileShell {
+    --phone-chrome: #d2d6c9;
+    --phone-ink: #182019;
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-rows: 28px minmax(0, 1fr) 58px;
+    overflow: hidden;
+    color: var(--phone-ink);
+    background: #d7dbce;
+    font-family: var(--font-geist-sans), ui-sans-serif, sans-serif;
+  }
+
+  .mobileStatusBar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border-bottom: 1px solid #777c70;
+    padding: 0 8px;
+    color: #182019;
+    background: #bcc2b4;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 9px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mobileStatusBar strong {
+    flex: 1;
+    font-size: 9px;
+  }
+
+  .mobileStatusBar button {
+    min-width: 44px;
+    align-self: stretch;
+    border: 0;
+    background: transparent;
+    font-size: 9px;
+    font-weight: 800;
+  }
+
+  .mobileSignal {
+    display: flex;
+    height: 13px;
+    align-items: end;
+    gap: 1px;
+  }
+
+  .mobileSignal i {
+    display: block;
+    width: 2px;
+    background: #182019;
+  }
+
+  .mobileSignal i:nth-child(1) {
+    height: 3px;
+  }
+
+  .mobileSignal i:nth-child(2) {
+    height: 6px;
+  }
+
+  .mobileSignal i:nth-child(3) {
+    height: 9px;
+  }
+
+  .mobileSignal i:nth-child(4) {
+    height: 12px;
+  }
+
+  .mobileDisplay {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    background: #173d8f;
+  }
+
+  .mobileLauncher {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    overflow: auto;
+    color: #f8f4e8;
+    background: linear-gradient(145deg, rgb(255 255 255 / 7%), transparent 36%), #173d8f;
+    scrollbar-color: #f2c84b #102251;
+  }
+
+  .mobileLauncherHeader {
+    padding: 20px 18px 16px;
+  }
+
+  .mobileLauncherHeader p,
+  .mobileLauncherHeader span {
+    color: #d8e2f8;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 10px;
+  }
+
+  .mobileLauncherHeader h1 {
+    margin: 4px 0 3px;
+    font-size: clamp(28px, 10vw, 38px);
+    font-weight: 820;
+    letter-spacing: -0.03em;
+  }
+
+  .mobileAppGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-content: start;
+    gap: 8px 4px;
+    padding: 8px 10px 18px;
+  }
+
+  .mobileAppGrid > button {
+    display: grid;
+    min-width: 0;
+    min-height: 96px;
+    place-items: center;
+    align-content: center;
+    gap: 7px;
+    border: 1px solid transparent;
+    padding: 7px 3px;
+    color: white;
+    background: transparent;
+    text-align: center;
+  }
+
+  .mobileAppGrid > button:active,
+  .mobileAppGrid > button:focus-visible {
+    border-color: #f2c84b;
+    background: #102251;
+    outline: none;
+  }
+
+  .mobileAppGrid > button strong {
+    max-width: 11ch;
+    overflow-wrap: anywhere;
+    font-size: 11px;
+    line-height: 1.15;
+  }
+
+  .mobileIconTile {
+    display: grid;
+    width: 54px;
+    height: 54px;
+    place-items: center;
+    border: 1px solid #080e20;
+    border-radius: 10px;
+    background: #d9d2c2;
+    box-shadow:
+      0 3px 8px rgb(2 8 24 / 42%),
+      inset 1px 1px rgb(255 255 255 / 55%);
+  }
+
+  .mobileAccessibleLink {
+    min-height: 44px;
+    border: 0;
+    border-top: 1px solid rgb(227 235 255 / 28%);
+    color: #fff8e8;
+    background: #102251;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 750;
+  }
+
+  .mobileAppScreen {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-rows: 46px minmax(0, 1fr);
+    background: #f3ecde;
+  }
+
+  .mobileAppBar {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    align-items: center;
+    border-bottom: 2px solid #0c1a3e;
+    color: white;
+    background: #173d8f;
+  }
+
+  .mobileAppBar button {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 0;
+    color: white;
+    background: transparent;
+  }
+
+  .mobileAppBar button:active,
+  .mobileAppBar button:focus-visible {
+    color: #17191d;
+    background: #f2c84b;
+    outline: none;
+  }
+
+  .mobileAppBar svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mobileAppBar strong {
+    overflow: hidden;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobileAppBar > span {
+    padding-right: 10px;
+    color: #d8e2f8;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 8px;
+    font-weight: 750;
+  }
+
+  .mobileAppBody {
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: #706859 #c8c0af;
+  }
+
+  .mobileAppBody .appButton {
+    min-height: 44px;
+  }
+
+  .mobileSoftKeys {
+    display: grid;
+    grid-template-columns: 1fr 72px 1fr;
+    align-items: center;
+    gap: 4px;
+    border-top: 1px solid #777c70;
+    padding: 5px 8px;
+    background: var(--phone-chrome);
+  }
+
+  .mobileSoftKeys button {
+    display: grid;
+    min-height: 44px;
+    place-items: center;
+    border: 1px solid #72776c;
+    border-radius: 4px 4px 11px 11px;
+    color: #182019;
+    background: #c3c8bb;
+    box-shadow:
+      inset 1px 1px rgb(255 255 255 / 55%),
+      inset -1px -1px rgb(72 76 68 / 25%);
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  .mobileSoftKeys button:active,
+  .mobileSoftKeys button:focus-visible {
+    color: #fff;
+    background: #173d8f;
+    outline: 2px solid #f2c84b;
+    outline-offset: -3px;
+  }
+
+  .mobileSoftKeys button:disabled {
+    color: #777c70;
+  }
+
+  .mobileSoftKeys button > i {
+    display: block;
+    width: 24px;
+    height: 2px;
+    margin-top: 2px;
+    background: currentColor;
+  }
+
+  .mobileHomeKey {
+    border-radius: 18px !important;
+  }
+
+  .mobileHomeKey > span {
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-radius: 3px;
+  }
+
+  .desktop {
+    bottom: 54px;
+  }
+
+  .iconRack {
+    inset: 14px 12px auto;
+    width: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .desktopIcon {
+    min-height: 86px;
+  }
+
+  .windowFrame {
+    border-width: 0;
+    box-shadow: none;
+  }
+
+  .titleBar {
+    height: 42px;
+  }
+
+  .windowContent {
+    height: calc(100% - 42px);
+  }
+
+  .taskbar {
+    height: 54px;
+  }
+
+  .startButton {
+    min-width: 48px;
+    justify-content: center;
+    padding: 0 10px;
+  }
+
+  .startButton span {
+    display: none;
+  }
+
+  .taskButton {
+    min-width: 56px;
+    font-size: 0;
+  }
+
+  .taskButton::after {
+    content: "APP";
+    font-size: 10px;
+  }
+
+  .tray {
+    padding-inline: 7px;
+  }
+
+  .welcome {
+    grid-template-columns: 1fr;
+  }
+
+  .welcomeSide {
+    border-top: 1px solid #b8ad98;
+    border-left: 0;
+  }
+
+  .crtGlass {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) and (max-height: 500px) and (orientation: landscape) {
+  .experience {
+    padding: 2px max(2px, env(safe-area-inset-right)) 2px max(2px, env(safe-area-inset-left));
+  }
+
+  .deviceFrame {
+    width: min(100%, 680px);
+    border-radius: 14px;
+    padding: 6px;
+  }
+
+  .deviceFrame::before,
+  .deviceEarpiece,
+  .deviceHardware {
+    display: none;
+  }
+
+  .deviceScreen {
+    border-width: 2px;
+  }
+
+  .mobileLauncher {
+    grid-template-columns: minmax(150px, 0.7fr) minmax(0, 1.3fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .mobileLauncherHeader {
+    grid-row: 1 / -1;
+    align-content: center;
+    padding: 18px;
+  }
+
+  .mobileAppGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: auto;
+  }
+
+  .mobileAccessibleLink {
+    grid-column: 2;
+  }
+}

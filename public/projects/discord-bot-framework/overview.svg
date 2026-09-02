@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Discord Bot Framework architecture</title>
+  <desc id="desc">Diagram: a plugin-driven Discord bot core with first-party plugins (music, moderation, utilities) that can be enabled or disabled per guild, backed by async SQLAlchemy persistence and an optional FastAPI control panel.</desc>
+  <rect width="1200" height="675" fill="#fbfbfa"/>
+  <g font-family="ui-monospace, monospace" font-size="20" fill="#1c1b1a">
+    <!-- Row 1: Request flow (left to right) -->
+    <!-- Discord gateway -->
+    <rect x="60" y="100" width="200" height="90" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="160" y="138" text-anchor="middle">Discord Gateway</text>
+    <text x="160" y="162" text-anchor="middle" font-size="15" fill="#6b6a68">Hikari + Lightbulb</text>
+
+    <!-- Core (focal) -->
+    <rect x="340" y="100" width="240" height="90" rx="10" fill="#fde9d3" stroke="#b45309"/>
+    <text x="460" y="138" text-anchor="middle">Bot Core</text>
+    <text x="460" y="162" text-anchor="middle" font-size="15" fill="#6b6a68">routing · events · RBAC</text>
+
+    <!-- Plugins container -->
+    <rect x="660" y="100" width="180" height="90" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="750" y="138" text-anchor="middle">Plugins</text>
+    <text x="750" y="162" text-anchor="middle" font-size="15" fill="#6b6a68">enable / disable</text>
+
+    <!-- Plugin examples (stacked, right of Plugins) -->
+    <rect x="920" y="70" width="160" height="46" rx="8" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="1000" y="98" text-anchor="middle" font-size="15">Music (Lavalink)</text>
+    <rect x="920" y="124" width="160" height="46" rx="8" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="1000" y="152" text-anchor="middle" font-size="15">Moderation</text>
+    <rect x="920" y="178" width="160" height="46" rx="8" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="1000" y="206" text-anchor="middle" font-size="15">Utilities</text>
+
+    <!-- Row 1 arrows: clean horizontal flow -->
+    <line x1="260" y1="145" x2="340" y2="145" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="580" y1="145" x2="660" y2="145" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+    <!-- Plugins to examples: single bus arrow, then branch -->
+    <line x1="840" y1="145" x2="920" y2="93" stroke="#b45309" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <line x1="840" y1="145" x2="920" y2="147" stroke="#b45309" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <line x1="840" y1="145" x2="920" y2="201" stroke="#b45309" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+    <!-- Row 2: Services (Core feeds down into persistence and services) -->
+    <!-- Persistence -->
+    <rect x="60" y="340" width="220" height="90" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="170" y="378" text-anchor="middle">SQLAlchemy (async)</text>
+    <text x="170" y="402" text-anchor="middle" font-size="15" fill="#6b6a68">SQLite / PostgreSQL</text>
+
+    <!-- Lavalink -->
+    <rect x="400" y="340" width="220" height="90" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="510" y="378" text-anchor="middle">Lavalink</text>
+    <text x="510" y="402" text-anchor="middle" font-size="15" fill="#6b6a68">audio backend</text>
+
+    <!-- FastAPI panel -->
+    <rect x="740" y="340" width="220" height="90" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="850" y="378" text-anchor="middle">FastAPI panel</text>
+    <text x="850" y="402" text-anchor="middle" font-size="15" fill="#6b6a68">optional · in-process</text>
+
+    <!-- Core feeds down: three vertical arrows, no crossings -->
+    <line x1="400" y1="190" x2="220" y2="340" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="460" y1="190" x2="490" y2="340" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="520" y1="190" x2="820" y2="340" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Row 3: Per-guild config (spans width, fed by Core) -->
+    <rect x="60" y="520" width="1080" height="80" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="600" y="565" text-anchor="middle">Per-guild plugin &amp; permission configuration</text>
+    <!-- Dashed line from Core down to config (passes through row 2 gap) -->
+    <line x1="460" y1="190" x2="460" y2="520" stroke="#b45309" stroke-width="1.5" stroke-dasharray="6 6" marker-end="url(#arrow)"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#b45309"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,373 @@
+.page {
+  --bench-bg: #ddd3bf;
+  --paper: #f5eedf;
+  --paper-raised: #fff9ec;
+  --ink: #24211b;
+  --ink-muted: #655e51;
+  --line: #786f60;
+  --line-soft: #b8ad98;
+  --cobalt: #173d8f;
+  --cobalt-text: #ffffff;
+  --voltage: #f2c84b;
+  --shadow: #8d826f;
+  min-height: 70vh;
+  color: var(--ink);
+  background-color: var(--bench-bg);
+  background-image:
+    linear-gradient(135deg, transparent 0 48%, rgba(23, 61, 143, 0.055) 48% 51%, transparent 51%),
+    linear-gradient(45deg, transparent 0 48%, rgba(23, 61, 143, 0.04) 48% 51%, transparent 51%);
+  background-size: 72px 72px;
+}
+
+:global(.dark) .page {
+  --bench-bg: #151d2b;
+  --paper: #202a38;
+  --paper-raised: #293548;
+  --ink: #f3ebdc;
+  --ink-muted: #c7bdab;
+  --line: #9a8f7b;
+  --line-soft: #665f52;
+  --cobalt: #3f6fc4;
+  --cobalt-text: #ffffff;
+  --voltage: #f2c84b;
+  --shadow: #080b11;
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(17rem, 0.6fr);
+  gap: 2.5rem;
+  align-items: end;
+}
+
+.title {
+  max-width: 12ch;
+  font-size: clamp(2.7rem, 6vw, 5.9rem);
+  font-weight: 750;
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+
+.lede {
+  max-width: 42rem;
+  margin-top: 1.5rem;
+  color: var(--ink-muted);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.addressPlate {
+  border: 2px solid var(--line);
+  background: var(--paper);
+  box-shadow: 5px 5px 0 var(--shadow);
+}
+
+.addressPlate dt,
+.addressPlate dd {
+  padding: 0.7rem 0.9rem;
+}
+
+.addressPlate dt {
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.addressPlate dd {
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.station {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(16rem, 0.55fr);
+  gap: 1.5rem;
+  align-items: start;
+  margin-top: 3rem;
+}
+
+.composer {
+  border: 2px solid var(--line);
+  background: var(--paper);
+  box-shadow: 8px 8px 0 var(--shadow);
+}
+
+.composerHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  border-bottom: 2px solid var(--line);
+  padding: 1.15rem 1.3rem;
+  background: var(--paper-raised);
+}
+
+.composerTitle {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+
+.localState {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.handoffNotice {
+  border-bottom: 1px solid var(--line-soft);
+  border-left: 0.65rem solid var(--voltage);
+  padding: 0.85rem 1rem;
+  color: var(--ink-muted);
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+}
+
+.fieldLabel,
+.fieldControl {
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.fieldLabel {
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--line-soft);
+  padding: 0.8rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.fieldControl {
+  min-width: 0;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  background: color-mix(in srgb, var(--paper-raised) 64%, transparent);
+  padding: 0.8rem 0.95rem;
+  color: var(--ink);
+  font: inherit;
+}
+
+.fieldControl[readonly] {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+}
+
+.fieldControl:focus-visible,
+.messageControl:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 3px solid var(--cobalt);
+  outline-offset: -4px;
+}
+
+.messageField {
+  padding: 1.3rem;
+}
+
+.messageLabel {
+  display: block;
+  margin-bottom: 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.messageControl {
+  display: block;
+  width: 100%;
+  min-height: 16rem;
+  resize: vertical;
+  border: 1px solid var(--line-soft);
+  border-radius: 0;
+  background: var(--paper-raised);
+  padding: 1rem;
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.65;
+}
+
+.composerFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem 1.25rem;
+  border-top: 2px solid var(--line);
+  padding: 1rem 1.3rem;
+  background: var(--paper-raised);
+}
+
+.primaryButton {
+  min-height: 2.9rem;
+  border: 2px solid var(--line);
+  border-radius: 0;
+  background: var(--voltage);
+  padding: 0.65rem 1rem;
+  color: #24211b;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 750;
+  box-shadow: 3px 3px 0 var(--shadow);
+  cursor: pointer;
+}
+
+.primaryButton:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--shadow);
+}
+
+.handoffText {
+  flex: 1;
+  min-width: 13rem;
+  color: var(--ink-muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.externalPanel {
+  border: 2px solid var(--line);
+  background: var(--paper);
+  box-shadow: 5px 5px 0 var(--shadow);
+}
+
+.externalPanelHeader {
+  border-bottom: 2px solid var(--line);
+  padding: 1rem;
+  background: var(--cobalt);
+  color: var(--cobalt-text);
+}
+
+.externalPanelTitle {
+  font-size: 1.1rem;
+  font-weight: 750;
+}
+
+.externalPanelText {
+  margin-top: 0.35rem;
+  color: color-mix(in srgb, var(--cobalt-text) 78%, transparent);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.socialList {
+  list-style: none;
+}
+
+.socialItem + .socialItem {
+  border-top: 1px solid var(--line-soft);
+}
+
+.socialLink {
+  display: block;
+  padding: 1rem;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 120ms ease;
+}
+
+.socialLink:hover {
+  background: color-mix(in srgb, var(--voltage) 30%, var(--paper));
+}
+
+.socialLabel {
+  display: block;
+  font-weight: 750;
+}
+
+.socialDestination,
+.socialHandoff {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--ink-muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.socialDestination {
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+}
+
+.socialHandoff {
+  color: var(--cobalt);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+:global(.dark) .socialHandoff {
+  color: #8eb3ff;
+}
+
+@media (max-width: 850px) {
+  .intro,
+  .station {
+    grid-template-columns: 1fr;
+  }
+
+  .addressPlate,
+  .externalPanel {
+    max-width: 36rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .title {
+    font-size: clamp(2.55rem, 16vw, 4rem);
+  }
+
+  .composer {
+    margin-right: -0.75rem;
+    margin-left: -0.75rem;
+    box-shadow: 5px 5px 0 var(--shadow);
+  }
+
+  .fieldGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .fieldLabel {
+    border-right: 0;
+    padding-bottom: 0.35rem;
+  }
+
+  .fieldControl {
+    padding-top: 0.45rem;
+  }
+
+  .messageField,
+  .composerFooter,
+  .composerHeader {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .messageControl {
+    min-height: 13rem;
+  }
+
+  .primaryButton {
+    width: 100%;
+  }
+}

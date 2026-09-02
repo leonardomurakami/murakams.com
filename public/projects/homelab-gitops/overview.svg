@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Homelab GitOps Platform overview</title>
+  <desc id="desc">Diagram: Git repository feeds ArgoCD, which reconciles a Kubernetes cluster. A private collector reads cluster and ArgoCD state, emits a raw snapshot into a sanitizer, which projects an allowlisted public schema to the portfolio /infra view.</desc>
+  <rect width="1200" height="675" fill="#fbfbfa"/>
+  <g font-family="ui-monospace, monospace" font-size="20" fill="#1c1b1a">
+    <!-- Git -->
+    <rect x="60" y="120" width="220" height="120" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="170" y="170" text-anchor="middle">Git repository</text>
+    <text x="170" y="200" text-anchor="middle" font-size="15" fill="#6b6a68">source of truth</text>
+
+    <!-- ArgoCD -->
+    <rect x="380" y="120" width="220" height="120" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="490" y="170" text-anchor="middle">ArgoCD</text>
+    <text x="490" y="200" text-anchor="middle" font-size="15" fill="#6b6a68">reconciles</text>
+
+    <!-- Cluster -->
+    <rect x="700" y="120" width="220" height="120" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="810" y="170" text-anchor="middle">Kubernetes</text>
+    <text x="810" y="200" text-anchor="middle" font-size="15" fill="#6b6a68">cluster</text>
+
+    <!-- arrows row 1 -->
+    <line x1="280" y1="180" x2="380" y2="180" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="600" y1="180" x2="700" y2="180" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Collector -->
+    <rect x="700" y="360" width="220" height="100" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="810" y="400" text-anchor="middle">private collector</text>
+    <text x="810" y="425" text-anchor="middle" font-size="15" fill="#6b6a68">read-only</text>
+    <line x1="810" y1="240" x2="810" y2="360" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Sanitizer -->
+    <rect x="380" y="360" width="220" height="100" rx="10" fill="#fde9d3" stroke="#b45309"/>
+    <text x="490" y="400" text-anchor="middle">sanitizer</text>
+    <text x="490" y="425" text-anchor="middle" font-size="15" fill="#6b6a68">allowlist only</text>
+    <line x1="700" y1="410" x2="600" y2="410" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Public model -->
+    <rect x="60" y="360" width="220" height="100" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="170" y="400" text-anchor="middle">public schema</text>
+    <text x="170" y="425" text-anchor="middle" font-size="15" fill="#6b6a68">typed, small</text>
+    <line x1="380" y1="410" x2="280" y2="410" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Portfolio -->
+    <rect x="60" y="540" width="860" height="80" rx="10" fill="#ffffff" stroke="#d6d3d0"/>
+    <text x="490" y="585" text-anchor="middle">portfolio /infra — the only public surface</text>
+    <line x1="170" y1="460" x2="170" y2="540" stroke="#b45309" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- boundary label -->
+    <line x1="340" y1="340" x2="940" y2="340" stroke="#b45309" stroke-dasharray="6 6" stroke-width="1.5"/>
+    <text x="940" y="335" text-anchor="end" font-size="14" fill="#b45309">sanitization boundary</text>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#b45309"/>
+    </marker>
+  </defs>
+</svg>
