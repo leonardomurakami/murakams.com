@@ -3,7 +3,7 @@ name: Build and Push to GitHub Container Registry
 on:
   push:
     branches:
-      - main
+      - master
     tags:
       - 'v*'
   workflow_dispatch:
@@ -68,7 +68,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Update deployed image
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         uses: leonardomurakami/actions/update-deployment@v1
         with:
           deployments-ssh-key: ${{ secrets.DEPLOYMENTS_SSH_KEY }}
