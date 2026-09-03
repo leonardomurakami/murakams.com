@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
+// The home page surfaces a live infrastructure status summary that is read from
+// the ConfigMap-mounted snapshot. Revalidate periodically so the accessible
+// presentation reflects fresh collector output without rendering on every hit.
+export const revalidate = 60;
+
 /** Derive overall health from a snapshot's aggregate counts. */
 function overallStatus(
   summary: PublicInfrastructureSnapshot["summary"],

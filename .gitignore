@@ -20,6 +20,9 @@
 # production
 /build
 
+# infra collector build output
+/collector/dist
+
 # misc
 .DS_Store
 *.pem

@@ -42,10 +42,26 @@ inputs (Secrets, IPs, node names, private hostnames, raw responses, tokens,
 annotations) are stripped and that every public-schema field is explicitly
 allowlisted.
 
-## Live collection is a subsequent phase
+## Live collection
 
-The initial implementation is backed by realistic mocked sanitized fixtures
-(`fixtures/public-snapshot.ts`) consumed through the portfolio API/cache layer.
-A future live collector implements `CollectorFn` from `collector-contract.ts`
-and is wired behind the sanitizer; the public schema, the API/cache interface,
-and the frontend do not change.
+A live collector (`collector.ts`) implements `CollectorFn` from
+`collector-contract.ts`. It runs as a Kubernetes CronJob
+(`murakams-infra-collector`) in the murakams namespace, queries the in-cluster
+ArgoCD and Kubernetes APIs, projects the result through the sanitizer, and
+writes the public snapshot to the `murakams-infra-snapshot` ConfigMap. The
+murakams web deployment mounts that ConfigMap at `/var/lib/infra/snapshot.json`
+and the API/cache layer (`api/index.ts`) reads it at request time, reporting
+`fresh`, `stale` (aged past the staleness threshold), or `degraded` (absent or
+unreadable, falling back to the fixture). The immersive System Monitor fetches
+the same snapshot client-side from the `/api/infra` endpoint.
+
+The collector filters to the ArgoCD `workloads` project by default
+(`ARGOCD_PROJECT_FILTER`) so platform plumbing is not exposed. ArgoCD is reached
+over an in-cluster HTTPS connection; the collector authenticates with an ArgoCD
+local account token (`infra-collector`, `role:readonly`) mounted from a
+Kubernetes Secret — never committed to Git. See the deployments repository for
+the one-time token/Secret setup.
+
+The public schema, the API/cache interface, and the frontend are unchanged from
+the mocked phase; only the data source switched from the fixture to the mounted
+live snapshot.

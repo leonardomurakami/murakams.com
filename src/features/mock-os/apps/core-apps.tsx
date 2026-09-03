@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { getInfrastructureStatusSync } from "@/infra/api";
+import { useInfraSnapshot } from "@/features/infra/use-infra-snapshot";
 import {
   selectApplication,
   selectInfrastructureApplications,
@@ -41,7 +41,7 @@ function AppButton({
 
 export function WelcomeApp() {
   const desktop = useMockOsDesktop();
-  const { snapshot } = getInfrastructureStatusSync();
+  const { snapshot } = useInfraSnapshot();
   const catalog = usePlaygroundCatalog();
 
   return (
@@ -173,7 +173,7 @@ type MonitorFilter = "all" | "healthy" | "attention";
 type MonitorPanel = "overview" | "workloads" | "services";
 
 export function SystemMonitorApp() {
-  const { snapshot, status, note } = getInfrastructureStatusSync();
+  const { snapshot, status, note } = useInfraSnapshot();
   const applications = useMemo(() => selectInfrastructureApplications(snapshot), [snapshot]);
   const [selectedId, setSelectedId] = useState(applications[0]?.id ?? "");
   const [filter, setFilter] = useState<MonitorFilter>("all");
